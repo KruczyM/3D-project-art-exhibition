@@ -80,17 +80,17 @@ Promise.all([
   loader.loadAsync(`${BASE}3.glb`)
 ]).then(([shellGLTF, artworksGLTF, propsGLTF]) => {
 
-  // --- GALLERY SHELL ---
+
   const shell = shellGLTF.scene;
   shell.scale.setScalar(SCENE_SCALE);
   scene.add(shell);
 
-  // --- PROPS ---
+
   const props = propsGLTF.scene;
   props.scale.setScalar(SCENE_SCALE);
   scene.add(props);
 
-  // --- ARTWORKS (TU CAŁA LOGIKA KLIKANIA) ---
+
   const artworksScene = artworksGLTF.scene;
   artworksScene.scale.setScalar(SCENE_SCALE);
   scene.add(artworksScene);
