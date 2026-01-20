@@ -12,7 +12,7 @@ import GUI from "lil-gui";
 import { artworks, updateCameraTransitionEase, smoothGoToArtwork } from "./arts.js";
 
 
-const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
 
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -33,10 +33,7 @@ const camera = new THREE.PerspectiveCamera(
 
 
 camera.position.set(4.53, 2.11, -9.07); 
-if (isMobile) {
-  camera.fov = 120;            
-  camera.updateProjectionMatrix();
-}
+
 //composer
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
@@ -313,6 +310,7 @@ function clampControlsTarget() {
 }
 
 function animate() {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
     requestAnimationFrame(animate);
 
     const delta = clock.getDelta();
@@ -323,6 +321,12 @@ function animate() {
     clampCameraPosition();
     clampControlsTarget()
     composer.render();
+    if (isMobile) {
+  camera.fov = 120;            
+  camera.updateProjectionMatrix();
+}else{
+    camera.fov = 60; 
+}
 }
 animate();
 
