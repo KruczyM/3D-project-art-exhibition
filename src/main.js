@@ -12,7 +12,7 @@ import GUI from "lil-gui";
 import { artworks, updateCameraTransitionEase, smoothGoToArtwork } from "./arts.js";
 
 
-const aspect = window.innerWidth / window.innerHeight;
+const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -33,7 +33,7 @@ const camera = new THREE.PerspectiveCamera(
 
 
 camera.position.set(4.53, 2.11, -9.07); 
-if (aspect < 0.8) {
+if (isMobile) {
   camera.fov = 90;            
   camera.updateProjectionMatrix();
 }
