@@ -34,7 +34,7 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.set(4.53, 2.11, -9.07); 
 if (isMobile) {
-  camera.fov = 90;            
+  camera.fov = 120;            
   camera.updateProjectionMatrix();
 }
 //composer
