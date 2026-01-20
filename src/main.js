@@ -32,7 +32,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 
-camera.position.set(4.53, 2.11, -9.07); 
+camera.position.set(4.53, 2.11, -9.07);
 
 //composer
 const composer = new EffectComposer(renderer);
@@ -78,43 +78,47 @@ const loader = new GLTFLoader();
 const SCENE_SCALE = 0.3;
 
 Promise.all([
-  loader.loadAsync(`${BASE}1.glb`),
-  loader.loadAsync(`${BASE}2.glb`),
-  loader.loadAsync(`${BASE}3.glb`)
+    loader.loadAsync(`${BASE}1.glb`),
+    loader.loadAsync(`${BASE}2.glb`),
+    loader.loadAsync(`${BASE}3.glb`)
 ]).then(([shellGLTF, artworksGLTF, propsGLTF]) => {
 
+    const allScenes = [];
+    const shell = shellGLTF.scene;
+    shell.scale.setScalar(SCENE_SCALE);
+    scene.add(shell);
+    allScenes.push(shell);
 
-  const shell = shellGLTF.scene;
-  shell.scale.setScalar(SCENE_SCALE);
-  scene.add(shell);
+    const props = propsGLTF.scene;
+    props.scale.setScalar(SCENE_SCALE);
+    scene.add(props);
+    allScenes.push(props);
 
+    const artworksScene = artworksGLTF.scene;
+    artworksScene.scale.setScalar(SCENE_SCALE);
+    scene.add(artworksScene);
+    allScenes.push(artworksScene);
+    allScenes.forEach((root) => {
+        root.traverse((obj) => {
+            if (!obj.isMesh) return;
 
-  const props = propsGLTF.scene;
-  props.scale.setScalar(SCENE_SCALE);
-  scene.add(props);
+            const parent = obj.parent;
+            const art = artworks.find(
+                a => a.meshName === obj.name || a.groupName === parent?.name
+            );
 
+            if (art) {
+                artworkMeshes.set(obj.uuid, art);
+                obj.userData.artworkId = art.id;
+            }
+        });
+    });
 
-  const artworksScene = artworksGLTF.scene;
-  artworksScene.scale.setScalar(SCENE_SCALE);
-  scene.add(artworksScene);
+    console.log(art)
 
-  artworksScene.traverse((obj) => {
-    if (!obj.isMesh) return;
-
-    const parent = obj.parent;
-    const art = artworks.find(
-      a => a.meshName === obj.name || a.groupName === parent?.name
-    );
-
-    if (art) {
-      artworkMeshes.set(obj.uuid, art);
-      obj.userData.artworkId = art.id;
-    }
-  });
-
-  console.log("All GLBs loaded");
+    console.log("All GLBs loaded");
 }).catch((err) => {
-  console.error("GLB loading error", err);
+    console.error("GLB loading error", err);
 });
 
 //raycaster click
@@ -301,7 +305,7 @@ function clampCameraPosition() {
 }
 
 function clampControlsTarget() {
-     if (params.cameraMode === "lock" || params.cameraMode === "free") return;
+    if (params.cameraMode === "lock" || params.cameraMode === "free") return;
 
     const t = controls.target;
     t.x = THREE.MathUtils.clamp(t.x, -4, 4);
@@ -322,11 +326,11 @@ function animate() {
     clampControlsTarget()
     composer.render();
     if (isMobile) {
-  camera.fov = 120;            
-  camera.updateProjectionMatrix();
-}else{
-    camera.fov = 60; 
-}
+        camera.fov = 120;
+        camera.updateProjectionMatrix();
+    } else {
+        camera.fov = 60;
+    }
 }
 animate();
 
