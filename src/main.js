@@ -12,7 +12,8 @@ import GUI from "lil-gui";
 import { artworks, updateCameraTransitionEase, smoothGoToArtwork } from "./arts.js";
 
 
-const isMobile = window.matchMedia("(max-width: 768px)").matches;
+const aspect = window.innerWidth / window.innerHeight;
+
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,7 +33,7 @@ const camera = new THREE.PerspectiveCamera(
 
 
 camera.position.set(4.53, 2.11, -9.07); 
-if (isMobile) {
+if (aspect < 0.8) {
   camera.fov = 90;            
   camera.updateProjectionMatrix();
 }
@@ -269,13 +270,13 @@ gui.add(params, "cameraMode", ["gallery", "free", "lock"])
     });
 
 
-// DEBUG
-gui.add(camera.position, "x", -100, 100).name("X Position").listen();
-gui.add(camera.position, "y", -100, 100).name("Y Position").listen();
-gui.add(camera.position, "z", -100, 100).name("Z Position").listen();
-gui.add(controls.target, "x", -100, 100).name("X Position").listen();
-gui.add(controls.target, "y", -100, 100).name("Y Position").listen();
-gui.add(controls.target, "z", -100, 100).name("Z Position").listen();
+// // DEBUG
+// gui.add(camera.position, "x", -100, 100).name("X Position").listen();
+// gui.add(camera.position, "y", -100, 100).name("Y Position").listen();
+// gui.add(camera.position, "z", -100, 100).name("Z Position").listen();
+// gui.add(controls.target, "x", -100, 100).name("X Position").listen();
+// gui.add(controls.target, "y", -100, 100).name("Y Position").listen();
+// gui.add(controls.target, "z", -100, 100).name("Z Position").listen();
 
 //
 //  ANIMATION
