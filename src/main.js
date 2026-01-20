@@ -72,36 +72,47 @@ const artworkMeshes = new Map();
 //  GLB from blender
 //
 const loader = new GLTFLoader();
-loader.load(
-    `${BASE}scene22.glb`,
-    (gltf) => {
-        const model = gltf.scene;
-        scene.add(model);
-        const SCENE_SCALE = 0.3;
-        model.scale.setScalar(SCENE_SCALE);
+const SCENE_SCALE = 0.3;
 
-        model.traverse((obj) => {
+Promise.all([
+  loader.loadAsync(`${BASE}1.glb`),
+  loader.loadAsync(`${BASE}2.glb`),
+  loader.loadAsync(`${BASE}3.glb`)
+]).then(([shellGLTF, artworksGLTF, propsGLTF]) => {
 
-            const parent = obj.parent;
-            if (obj.isMesh) {
-                const art = artworks.find(a => a.meshName === obj.name || a.groupName === parent.name);
-                if (art) {
-                    artworkMeshes.set(obj.uuid, art);
-                    obj.userData.artworkId = art.id;
-                }
-            }
-        });
+  // --- GALLERY SHELL ---
+  const shell = shellGLTF.scene;
+  shell.scale.setScalar(SCENE_SCALE);
+  scene.add(shell);
 
-        console.log("GLB loaded !!", gltf);
-    },
-    // (progress) => {
-    //     const pct = (progress.loaded / progress.total) * 100;
-    //     console.log(`Loading: ${pct.toFixed(1)}%`);
-    // },
-    // (err) => {
-    //     console.error("GLB load error :(", err);
-    // }
-);
+  // --- PROPS ---
+  const props = propsGLTF.scene;
+  props.scale.setScalar(SCENE_SCALE);
+  scene.add(props);
+
+  // --- ARTWORKS (TU CAŁA LOGIKA KLIKANIA) ---
+  const artworksScene = artworksGLTF.scene;
+  artworksScene.scale.setScalar(SCENE_SCALE);
+  scene.add(artworksScene);
+
+  artworksScene.traverse((obj) => {
+    if (!obj.isMesh) return;
+
+    const parent = obj.parent;
+    const art = artworks.find(
+      a => a.meshName === obj.name || a.groupName === parent?.name
+    );
+
+    if (art) {
+      artworkMeshes.set(obj.uuid, art);
+      obj.userData.artworkId = art.id;
+    }
+  });
+
+  console.log("All GLBs loaded");
+}).catch((err) => {
+  console.error("GLB loading error", err);
+});
 
 //raycaster click
 const raycaster = new THREE.Raycaster();
