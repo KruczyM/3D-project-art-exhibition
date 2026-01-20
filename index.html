@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Art Exhibition</title>
+  <button id="muteButton"
+    style="position: absolute; top: 1px; left: 1px; font-size: 1.5em; cursor: pointer; z-index: 1000; background-color: transparent; border: none; color: white;">🔇</button>
+ <script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.181.2/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.181.2/examples/jsm/",
+    "lil-gui": "https://cdn.jsdelivr.net/npm/lil-gui@0.18/+esm"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/3D-project-art-exhibition/assets/index-D8MHgrJK.js"></script>
+  <link rel="stylesheet" crossorigin href="/3D-project-art-exhibition/assets/index-CVctFdAq.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- -->
+
+<div id="artworkPanel" class="art-panel hidden">
+    <h2 id="artTitle"></h2>
+    <p id="artAuthor"></p>
+    <p id="artDescription"></p>
+    <button id="closeArtPanel">Close</button>
+</div>
+
+ 
+<div id="navigation">
+  <button id="prevArtworkBtn" class="nav-arrow left" aria-label="Previous artwork">
+    ‹
+  </button>
+
+  <button id="nextArtworkBtn" class="nav-arrow right" aria-label="Next artwork">
+    ›
+  </button>
+</div>
+
+
+</body>
+<footer
+  style="position:fixed; bottom:5px; right:10px; font-size:12px; color:#aaa; font-family: sans-serif; text-align: right;">
+  Music: "Bedtime After A Coffee" by Barradeen
+  (<a href="https://www.youtube.com/channel/UCfTggY6U7d6XVre774B1_qg" target="_blank"
+    style="color:#aaa; text-decoration:underline;">YouTube</a>)
+  Licensed via
+  <a href="https://breakingcopyright.com" target="_blank" style="color:#aaa; text-decoration:underline;">
+    BreakingCopyright
+  </a>
+</footer>
+
+</html>
