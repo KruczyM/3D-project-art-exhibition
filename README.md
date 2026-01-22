@@ -75,7 +75,7 @@ To run the project locally, the following software is required:
 
   6.1 Repository Setup  
 
-&emsp;&emsp;&emsp;git clone https://github.com/KruczyM/3D-project-art-exhibition
+&emsp;&emsp;&emsp;git clone https://github.com/KruczyM/3D-project-art-exhibition  
 &emsp;&emsp;&emsp;cd gallery  
 
   6.2 Git LFS Configuration (Required)
